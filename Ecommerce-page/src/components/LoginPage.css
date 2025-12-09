@@ -1,0 +1,139 @@
+.main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:16px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f3f7ff, #d6e6ff);
+}
+.main::before,
+.main::after{
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.9;
+    animation: floatBlob 24s cubic-bezier(0.32, 0.08, 0.24, 1) infinite;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
+    z-index: 0;
+}
+.main::before{
+    width: 500px;
+    height:500px;
+    background: #8ebfff;
+    top: -80px;
+    left: -80px;
+    animation-delay: 0s;
+}
+
+.main::after{
+    width: 500px;
+    height: 500px;
+    background: #8ff0d4;
+    bottom: -90px;
+    right: -70px;
+    animation-delay: 4s;
+}
+
+@keyframes floatBlob{
+    0%{
+        transform: translate(0px 0px) scale(1);
+        opacity: 0.55;
+    }
+    33%{
+        transform: translate(80px,-60px) scale(1.25);
+        opacity: 0.75;
+    }
+    66%{
+        transform: translate(-90,50px) scale(0.85);
+        opacity: 0.60;
+    }
+    100%{
+        transform: translate(50px,-40px) scale(1.2);
+        opacity: 0.70;
+    }
+}
+
+.box{
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid #ffffff4d;
+    padding: 24px;
+    background: #ffffff40;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 8px 20px #00000020;
+    border-radius: 18px;
+    z-index: 1;
+}
+
+legend{
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0 8px;
+    color: #1d2939;
+}
+
+.input{
+    width: 90%;
+    padding: 14px;
+    margin-top: 6px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 15px;
+}
+
+.input:focus{
+    outline: none;
+    border-color: #007aff;
+    box-shadow: 0 0 0 2px #c8e2ff;
+}
+
+.button{
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.2s ease,transform 0.15s ease;
+}
+.button:hover{
+    background: #1e54c6;
+}
+
+.button:active{
+    transform: scale(0.97);
+}
+
+.link{
+    cursor: pointer;
+    margin-top: 6px;
+    color: #12b5a5;
+    font-size: 15px;
+    text-align: center;
+
+}
+.link:hover{
+    text-decoration: underline;
+}
+
+.box div{
+    margin-bottom: 16px;
+}
+
+@media(max-width:400px){
+    .box{
+        padding: 20px;
+    }
+    .legend{
+        font-size: 18px;
+    }
+}
