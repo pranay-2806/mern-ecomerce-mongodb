@@ -22,7 +22,8 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: ["http://localhost:5173",
-             "https://pranay-mern-ecomerce-mongodb.onrender.com"],
+             "https://pranay-mern-ecomerce-mongodb.onrender.com",
+            "https://mern-ecomerce-mongodb.vercel.app"],
     methods: ["GET","POST","PUT","DELETE","OPTIONS"],
     allowedHeaders: ["Content-Type","Authorization"]
   })
