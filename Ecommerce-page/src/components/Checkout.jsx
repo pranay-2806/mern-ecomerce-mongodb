@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Checkout.css"
 import axios from "axios";
 
-const API_BASE = "https://pranay-mern-ecommerce-mongodb.onrender.com";
+const API_BASE = "https://pranay-mern-ecomerce-mongodb.onrender.com";
 
 
 const Checkout = () => {
@@ -128,7 +128,7 @@ const Checkout = () => {
   return (
     <div className="checkout-wrap">
       <div className="checkout-card">
-      <h2 classname="checkout-title">Checkout</h2>
+      <h2 className="checkout-title">Checkout</h2>
 
       {cart.length === 0 ? (
         <p className="empty-message">Your cart is empty</p>

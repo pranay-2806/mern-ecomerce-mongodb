@@ -11,7 +11,7 @@ const CartPage=()=>{
     const [cartItems,setCartItems]=useState([])
 
     const fetchCart=async()=>{
-        const res=await fetch(`https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/${USER_ID}`)
+        const res=await fetch(`https://pranay-mern-ecomerce-mongodb.onrender.com/api/cart/${USER_ID}`)
         const data=await res.json()
         setCartItems(data)
     }
@@ -23,7 +23,7 @@ const CartPage=()=>{
         const item=cartItems.find(i=>i.product_id._id===product_id)
         const newQty=item.qty+1
         
-        await fetch("https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/update",{
+        await fetch("https://pranay-mern-ecomerce-mongodb.onrender.com/api/cart/update",{
             method:"PUT",
             headers:{"content-Type":"application/json"},
             body:JSON.stringify({user_id:USER_ID,product_id,qty:newQty})
@@ -33,7 +33,7 @@ const CartPage=()=>{
     const decreaseQty=async(product_id)=>{
         const item=cartItems.find(i=>i.product_id._id===product_id)
         const newQty=item.qty-1 
-        await fetch("https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/update",{
+        await fetch("https://pranay-mern-ecomerce-mongodb.onrender.com/api/cart/update",{
             method:"PUT",
             headers:{"content-Type":"application/json"},
             body:JSON.stringify({user_id:USER_ID,product_id,qty:newQty})
@@ -41,7 +41,7 @@ const CartPage=()=>{
        fetchCart()
     }
     const removeItem=async(product_id)=>{
-         await fetch("https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/remove",{
+         await fetch("https://pranay-mern-ecomerce-mongodb.onrender.com/api/cart/remove",{
             method:"DELETE",
             headers:{"content-Type":"application/json"},
             body:JSON.stringify({user_id:USER_ID,product_id})
@@ -50,7 +50,7 @@ const CartPage=()=>{
     }
 
     const clearCart=async()=>{
-        await fetch (`https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/clear/${USER_ID}`,{
+        await fetch (`https://pranay-mern-ecomerce-mongodb.onrender.com/api/cart/clear/${USER_ID}`,{
             method:"DELETE",
         })
         fetchCart()

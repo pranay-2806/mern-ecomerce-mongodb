@@ -15,7 +15,8 @@ const app=express()
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://pranay-mern-ecommerce-mongodb.onrender.com"
+  "https://pranay-mern-ecommerce-mongodb.onrender.com",
+  "https://mern-ecomerce-mongodb.vercel.app"
 ];
 
 app.use(

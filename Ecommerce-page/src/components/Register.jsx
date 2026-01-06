@@ -15,7 +15,7 @@ const Register=()=>{
             return
         }
         try{
-            const response=await axios.post("https://pranay-mern-ecommerce-mongodb.onrender.com/api/auth/register",
+            const response=await axios.post("https://pranay-mern-ecomerce-mongodb.onrender.com/api/auth/register",
                 {username,email,password})
 
             console.log("Registration successful",response.data)
