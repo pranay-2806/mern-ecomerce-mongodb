@@ -13,7 +13,18 @@ const razorpayRoutes=require("./routes/orders")
 const app=express()
 
 
-app.use(cors())
+app.use(cors({
+    origin:[
+        "http://localhost:5173",
+        "https://pranay-mern-ecommerce-mongodb.onrender.com"
+    ],
+    credentials:true,
+    method:["GET","POST","PUT","DELETE","OPTIONS"],
+    allowedHeaders:["Content-Type","Authorization"]
+}))
+
+app.options("*",cors())
+
 app.use(express.json())
 
 app.use("/api/auth",authRoutes)

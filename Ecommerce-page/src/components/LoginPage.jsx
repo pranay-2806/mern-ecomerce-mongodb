@@ -21,7 +21,7 @@ const LoginPage=()=>{
       return;
     }
     try{
-        const response=await axios.post("http://localhost:5000/api/auth/login",{
+        const response=await axios.post("https://pranay-mern-ecommerce-mongodb.onrender.com/api/auth/login",{
             username,password
         })
         console.log("login Response",response.data)

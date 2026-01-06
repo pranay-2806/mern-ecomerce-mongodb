@@ -20,7 +20,7 @@ const Dashboard=()=>{
                     navigate("/")
                     return
                 }
-                const res=await axios.get("http://localhost:5000/api/product",{
+                const res=await axios.get("https://pranay-mern-ecommerce-mongodb.onrender.com/api/product",{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }
@@ -48,7 +48,7 @@ const Dashboard=()=>{
             console.log("USER ID:",userId)
             console.log("PRODUCT ID:",product._id)
 
-            const res=await fetch("http://localhost:5000/api/cart/add",{
+            const res=await fetch("https://pranay-mern-ecommerce-mongodb.onrender.com/api/cart/add",{
                 method:"POST",
                 headers: { "Content-Type": "application/json" },
                 body:JSON.stringify({user_id:userId,product_id:product._id

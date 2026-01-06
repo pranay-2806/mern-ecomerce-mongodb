@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Checkout.css"
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://pranay-mern-ecommerce-mongodb.onrender.com";
 
 
 const Checkout = () => {
