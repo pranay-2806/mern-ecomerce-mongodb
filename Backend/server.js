@@ -28,6 +28,9 @@ app.get("/",(req,res)=>{
 const PORT=process.env.PORT || 5000
 connectDB().then(()=>{
     app.listen(PORT,()=>{
-    console.log("server listening to the port no:5000")
+    console.log(`server listening to the port ${PORT}`)
     })
+})
+.catch((err)=>{
+    console.error("DB connection failed",err)
 })
