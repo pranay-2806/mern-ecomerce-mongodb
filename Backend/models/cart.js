@@ -1,17 +1,26 @@
-const {DataTypes}=require("sequelize")
-const sequelize=require("../db/connection")
+const mongoose=require("mongoose")
 
-const Cart=sequelize.define("Cart",
+const cartSchema=new mongoose.Schema(
     {
-        user_id:{type:DataTypes.INTEGER,allowNull:false},
-        product_id:{type:DataTypes.INTEGER,allowNull:false},
-        qty:{type:DataTypes.INTEGER,defaultValue:1}
+    user_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
     },
-    {
-        tableName:"carts",
-        timestamps:true,
-        createdAt:"created_at",
-        updatedAt:"updated_at"
+    product_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Product",
+        required:true
+    },
+    qty:{
+        type:Number,
+        default:1,
+        min:1
     }
+},
+{
+    timestamps:true,
+    collection:"carts"
+}
 )
-module.exports=Cart
+module.exports=mongoose.model("Cart",cartSchema)

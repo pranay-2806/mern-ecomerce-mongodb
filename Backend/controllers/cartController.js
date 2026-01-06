@@ -1,70 +1,97 @@
-const pool=require("../db/connection")
+const Cart=require("../models/cart")
+const Product=require("../models/products")
 
+const mongoose=require("mongoose")
+
+//GET usercart (with products details)
 const getCart=async(req,res)=>{
     try{
         const userId=req.params.userId
-        const [rows]=await pool.query("SELECT c.id, c.user_id, c.product_id,c.qty,p.name,p.price,p.product_img FROM carts c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?",
-            [userId])
-        return res.json(rows)
+
+        const items = await Cart.find({user_id:userId})
+        .populate("product_id","name price product_img") //select fields
+
+        return res.json(items)
     }catch(err){
-        console.log("Get cart error:",err)
+        console.error("Get cart error:",err)
         return res.status(500).json({message:"Failed to get cart"})
     }
 }
+
 const addToCart=async(req,res)=>{
     try{
         const{user_id,product_id}=req.body
-        const[existing]=await pool.query("SELECT * FROM carts WHERE user_id=? AND product_id=?",[user_id,product_id])
 
-        if(existing.length>0){
+        if(!mongoose.Types.ObjectId.isValid(user_id))
+            return res.status(400).json({message:"Invalid user id"})
+
+        if (!mongoose.Types.ObjectId.isValid(product_id))
+            return res.status(400).json({ message: "Invalid product id" });
+
+        //check if user exists
+        const existing=await Cart.findOne({user_id,product_id})
+        if(existing){
+            existing.qty += 1
+            await existing.save()
             
-            const newQty=existing[0].qty+1
-
-            await pool.query("UPDATE carts SET qty=? WHERE user_id=? AND product_id=?",[newQty,user_id,product_id])
-
-            return res.json({...existing[0],qty:newQty})
+            return res.json(existing)
         }
-        const[result]=await pool.query("INSERT INTO carts (user_id,product_id,qty) VALUES (?,?,?)",
-                    [user_id,product_id,1])
-        return res.json({id:result.insertId,
-                                  user_id,
-                                  product_id,
-                                  qty:1})
-}catch(err){
-        console.error("Add cart error:",err)
-        return res.status(500).json({message:"Failed to add to cart"})
+        const item=await Cart.create({
+            user_id,
+            product_id,
+            qty:1
+        })
+        return res.json(item)
+    }catch(err){
+        console.error("add to cart error:",err)
+        return res.status(500).json({message:"failed to add to cart"})
     }
 }
+
+//update qty
 const updateQty=async(req,res)=>{
     try{
         const{user_id,product_id,qty}=req.body
-       await pool.query("UPDATE carts SET qty=? WHERE user_id=? AND product_id=?",
-                        [qty,user_id,product_id])
+
+        if (qty < 1)
+        return res.status(400).json({ message: "qty must be >= 1" });
+    
+            await Cart.updateOne(
+                {user_id,product_id},
+            {qty}
+        )
         return res.json({message:"Quantity updated"})
     }catch(err){
         console.error("Update qty error:",err)
-        return res.status(500).json({message:"failed to update quantity"})
+        return res.status(500).json({message:"failed to updated Quantity"})
     }
 }
+
+//Remove one item
 const removeItem=async(req,res)=>{
     try{
         const{user_id,product_id}=req.body
-        await pool.query("DELETE FROM carts WHERE user_id = ? AND product_id = ?",
-                            [user_id, product_id]);
+        await Cart.deleteOne({user_id,product_id})
         return res.json({message:"Item removed"})
     }catch(err){
-        console.error("Remove item error:",err)
+        console.error("remove item error",err)
         return res.status(500).json({message:"Failed to remove item"})
     }
 }
+
+//Clear whole cart
 const clearCart=async(req,res)=>{
     try{
-        const user_id=req.params.userId
-        await pool.query("DELETE FROM carts WHERE user_id=?",[user_id])
-        return res.json({message:"Cart cleared"})
+    const user_id=req.params.userId
+    await Cart.deleteMany({user_id})
+
+    return res.json({message:"cart cleared"})
     }catch(err){
         console.error("clear cart error:",err)
         return res.status(500).json({message:"Failed to clear cart!"})
     }
 }
+
 module.exports={getCart,addToCart,updateQty,removeItem,clearCart}
+
+

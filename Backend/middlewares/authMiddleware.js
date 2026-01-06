@@ -6,7 +6,7 @@ const authMiddleware=(req,res,next)=>{
     const authHeader=req.headers.authorization
 
     // 2. If header is missing → user didn't send token
-    if(!authHeader){
+    if(!authHeader || !authHeader.startsWith("Bearer ")){
         return res.status(401).json({"message":"no token provided"})
     }
 

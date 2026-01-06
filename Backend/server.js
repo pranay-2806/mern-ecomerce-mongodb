@@ -1,6 +1,7 @@
 const express=require("express")
 const cors=require("cors")
 const dotenv=require("dotenv")
+const connectDB=require("./db/connection")
 
 dotenv.config()
 
@@ -25,6 +26,8 @@ app.get("/",(req,res)=>{
 })
 
 const PORT=process.env.PORT || 5000
-app.listen(PORT,()=>{
-    console.log("server lsitening to the port no:5000")
+connectDB().then(()=>{
+    app.listen(PORT,()=>{
+    console.log("server listening to the port no:5000")
+    })
 })

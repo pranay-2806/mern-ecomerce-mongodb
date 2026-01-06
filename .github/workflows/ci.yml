@@ -2,9 +2,9 @@ name:  CI
 
 on:
   push:
-    braches:  ["main"]
+    branches:  ["main"]
   pull_request:
-    braches:  ["main"]
+    branches:  ["main"]
 
 jobs:
   build:
@@ -12,7 +12,13 @@ jobs:
 
     steps:
       - name:  Checkout code
-        uses:  actions/checkout@v3
+        uses:  actions/checkout@v4
+
+      - name:  Setup Node
+        uses:  actions/setup-node@v4
+        with:
+          node-version: 18
+        
 
         #Backend setup
       - name:  Install backend dependencies
@@ -28,3 +34,6 @@ jobs:
       - name:  Build frontend
         working-directory:  ./Ecommerce-page
         run:  npm run build
+
+      - name:  CI Completed
+        run:  echo "Build sucessful"

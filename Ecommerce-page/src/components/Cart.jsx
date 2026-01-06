@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import "./Cart.css"
 
-const USER_ID=1
+
 
 const CartPage=()=>{
+    const USER_ID = localStorage.getItem("userId");
     const navigate=useNavigate()
 
     const [cartItems,setCartItems]=useState([])
@@ -19,7 +20,7 @@ const CartPage=()=>{
         },[])
 
     const increaseQty=async(product_id)=>{
-        const item=cartItems.find((i)=>i.product_id===product_id)
+        const item=cartItems.find(i=>i.product_id._id===product_id)
         const newQty=item.qty+1
         
         await fetch("http://localhost:5000/api/cart/update",{
@@ -30,7 +31,7 @@ const CartPage=()=>{
         fetchCart()
     }
     const decreaseQty=async(product_id)=>{
-        const item=cartItems.find((i)=>i.product_id===product_id)
+        const item=cartItems.find(i=>i.product_id._id===product_id)
         const newQty=item.qty-1 
         await fetch("http://localhost:5000/api/cart/update",{
             method:"PUT",
@@ -56,7 +57,7 @@ const CartPage=()=>{
     }
 
     const total=cartItems.reduce(
-        (sum,item)=>sum+Number(item.price || 0)*item.qty,0
+        (sum,item)=>sum+Number(item.product_id?.price || 0)*item.qty,0
     )
 return(
         <>
@@ -70,23 +71,23 @@ return(
                 ):(
                     <div className="cart-container" style={{maxWidth:"600px"}}>
                         {cartItems.map((item)=>(
-                            <div className="cart-item" key={item.id}>
+                            <div className="cart-item" key={item._id}>
                                 <div className="cart-info">
-                                    <div className="cart-name"><b>{item.name}</b></div>
+                                    <div className="cart-name"><b>{item.product_id.name}</b></div>
                                     <div className="qty-row"style={{marginTop:"5px",
                                                  display:"flex",
                                                  alignItems:"center",
                                                  gap:"10px"  
                                     }}>
-                                        <button className="qty-btn" onClick={()=>decreaseQty(item.product_id)}>-</button>
+                                        <button className="qty-btn" onClick={()=>decreaseQty(item.product_id._id)}>-</button>
                                                 <span className="qty-value">{item.qty}</span>
-                                        <button className="qty-btn" onClick={()=>increaseQty(item.product_id)}>+</button>
+                                        <button className="qty-btn" onClick={()=>increaseQty(item.product_id._id)}>+</button>
                                     </div>
-                                    <div className="price" style={{marginTop:"5px"}}>₹ {Number(item.price).toFixed(2)}</div>
+                                    <div className="price" style={{marginTop:"5px"}}>₹ {Number(item.product_id.price).toFixed(2)}</div>
                                 </div>
                                 <div>
                                     <button 
-                      onClick={() => removeItem(item.product_id)}
+                      onClick={() => removeItem(item.product_id._id)}
                       title="Remove item"
                       style={{
                         background: "transparent",

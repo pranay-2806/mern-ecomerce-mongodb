@@ -1,11 +1,15 @@
-const pool=require("../db/connection")
+const Product=require("../models/products")
 
 const getProducts=async(req,res)=>{
     try{
-        const [rows]=await pool.execute("SELECT * FROM products")
-        res.json(rows)
+        const products=await Product.find();   //fetch all products
+        res.json(products)
     }catch(err){
-        res.status(500).json({"message":err.message})
+        res.status(500).json({message:err.message})
     }
 }
 module.exports={getProducts}
+
+
+
+

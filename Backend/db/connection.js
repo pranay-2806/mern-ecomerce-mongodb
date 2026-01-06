@@ -1,12 +1,17 @@
-const mysql=require("mysql2")
+const mongoose=require("mongoose")
 
-const pool=mysql.createPool({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_NAME,
-    waitForConnections:true,
-    connectionLimit:10,
-    queueLimit:0
-})
-module.exports=pool.promise()
+const connectDB=()=>{
+    return mongoose.connect(process.env.MONGODB_URI,{
+        // useNewUrlParser:true,
+        // useUnifiedTopology:true
+    })
+    .then(()=>{
+        console.log("MongoDB connected")
+    })
+    .catch((err)=>{
+        console.error("MongoDB connection error:",err.message)
+        process.exit(1)
+    })
+}
+
+module.exports=connectDB

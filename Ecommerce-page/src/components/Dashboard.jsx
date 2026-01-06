@@ -43,10 +43,15 @@ const Dashboard=()=>{
 
     const addtocart=async(product)=>{
         try{
+            const userId=localStorage.getItem("userId")
+
+            console.log("USER ID:",userId)
+            console.log("PRODUCT ID:",product._id)
+
             const res=await fetch("http://localhost:5000/api/cart/add",{
                 method:"POST",
                 headers: { "Content-Type": "application/json" },
-                body:JSON.stringify({user_id:1,product_id:product.id
+                body:JSON.stringify({user_id:userId,product_id:product._id
                 })
             })
             if (!res.ok) {
@@ -85,7 +90,7 @@ const Dashboard=()=>{
                     </div>
                     <ul className="product-list">
                         {products.length > 0 ? (
-                        products.map((product) => (<li className="product-card" key={product.id}
+                        products.map((product) => (<li className="product-card" key={product._id}
                         style={{
                             listStyle: "none",
                             border: "1px solid #ccc",

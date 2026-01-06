@@ -1,13 +1,13 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Checkout.css"
 import axios from "axios";
 
 const API_BASE = "http://localhost:5000";
-const USER_ID = 1; // replace with real user id when auth is added
+
 
 const Checkout = () => {
+  const USER_ID = localStorage.getItem("userId");
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
@@ -19,7 +19,7 @@ const Checkout = () => {
       const res = await axios.get(`${API_BASE}/api/cart/${USER_ID}`);
       const data = res.data || [];
       setCart(data);
-      const t = data.reduce((s, it) => s + Number(it.price || 0) * Number(it.qty || 0), 0);
+      const t = data.reduce((s, it) => s + Number(it.product_id?.price || 0) * Number(it.qty || 0), 0);
       setTotal(t);
     } catch (err) {
       console.error("fetchCart error:", err);
@@ -136,15 +136,15 @@ const Checkout = () => {
         <>
           <ul className="checkout-list">
             {cart.map((it) => (
-              <li key={it.product_id} className="checkout-item">
+              <li key={it._id} className="checkout-item">
                 <img
-                  src={it.product_img}
-                  alt={it.name}
+                  src={it.product_id?.product_img}
+                  alt={it.product_id?.name}
                   className="product-img"
                 />
                 <div className="product-info">
-                <strong className="prodcut-name">{it.name}</strong> 
-                <span className="prodcut-meta">— ₹{it.price} × {it.qty}</span>
+                <strong className="prodcut-name">{it.product_id?.name}</strong> 
+                <span className="prodcut-meta">— ₹{it.product_id?.price} × {it.qty}</span>
                 </div>
               </li>
             ))}

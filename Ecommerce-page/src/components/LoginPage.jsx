@@ -2,6 +2,7 @@ import "./LoginPage.css"
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
+import { jwtDecode } from "jwt-decode"
 
 
 const LoginPage=()=>{
@@ -23,14 +24,27 @@ const LoginPage=()=>{
         const response=await axios.post("http://localhost:5000/api/auth/login",{
             username,password
         })
-        console.log("login success",response.data)
+        console.log("login Response",response.data)
 
         const token=response.data.token
+        
+
         if(!token){
             alert("No token is recieved from server")
             return
         }
+
+        const decoded=jwtDecode(token)
+        console.log("DECODED JWT:",decoded)
+
+        const userId=decoded.id
+
+        if(!userId){
+            alert("user ID missing in token")
+            return
+        }
         localStorage.setItem("token",token)
+        localStorage.setItem("userId",userId)
 
         alert("login successful")
         navigate("/dashboard")
