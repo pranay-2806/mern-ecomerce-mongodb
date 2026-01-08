@@ -17,6 +17,7 @@ const getCartForUser = async (user_id) => {
 const createOrder=async(req,res)=>{
     try{
         const{user_id}=req.body
+        
         if(!user_id){
             return res.status(400).json({message:"user_id required"})
         }

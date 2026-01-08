@@ -83,6 +83,11 @@ const Checkout = () => {
       const orderRes = await axios.post(`${API_BASE}/api/razorpay/order`, { user_id: USER_ID });
       const orderData = orderRes.data;
 
+      if (!orderData.amount || orderData.amount <= 0) {
+        alert("Invalid payment amount");
+        return;
+        }
+
       if (!orderData || !orderData.orderId) {
         console.error("Order creation failed:", orderData);
         alert(orderData.message || "Order creation failed");
@@ -108,9 +113,9 @@ const Checkout = () => {
         order_id: orderData.orderId,
         handler: handler, // use the arrow-function handler defined above
         prefill: {
-          name: "",
-          email: "",
-          contact: "",
+          name: "Test User",
+          email: "test@example.com",
+          contact: "9999999999",
         },
         theme: { color: "#3399cc" },
       };

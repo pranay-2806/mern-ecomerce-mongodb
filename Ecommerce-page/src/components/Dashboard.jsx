@@ -9,8 +9,7 @@ const Dashboard=()=>{
     
     const [products,setProducts]=useState([])
     useEffect(()=>{
-        alert("login sucessful")
-    
+    alert("Welcome to Dashboard")    
 
         const fetchProducts=async()=>{
             try{
